@@ -33,7 +33,7 @@ Player.CharacterAdded:Connect(UpdateCharacter)
     }
 
     Env.SettingsFarm = {
-        ["Farm"] = "Level_265",
+        ["Farm"] = "Level_185",
         ["Weapon"] = "Blood Scythe"
     }
     
@@ -125,7 +125,7 @@ Player.CharacterAdded:Connect(UpdateCharacter)
             ["Dis"] = 6
         },
         ["Level_185"] = {
-            ["Quest"] = buffer.fromstring(":\000\016\000Nanami - Shibuya\002\000"), -- Nanami
+            ["Quest"] = buffer.fromstring("=\000\016\000Nanami - Shibuya\002\000"), -- Nanami
             ["Mon"] = "ironcladgnasher",
             ["Cf"] = Vector3.new(957, 181, 3007),
             ["Dis"] = 0
@@ -137,6 +137,7 @@ Player.CharacterAdded:Connect(UpdateCharacter)
             ["Dis"] = 0
         }
     }
+
 
 
 local Tween = nil
@@ -170,15 +171,15 @@ local function Attack()
             blobs = {}
         }
     }
-    game:GetService("ReplicatedStorage"):WaitForChild("@rbxts/wcs:source/networking@GlobalEvents"):WaitForChild("requestSkill"):FireServer(unpack(args))
-    task.wait(.1)
+    ReplicatedStorage:WaitForChild("@rbxts/wcs:source/networking@GlobalEvents"):WaitForChild("requestSkill"):FireServer(unpack(args))
+    task.wait()
     local args = {
 	{
 		buffer = buffer.fromstring("\029\000\000\000Movesets/Weapons/Blood Scythe\000\000\000\000\000"),
 		blobs = {}
 	}
     }
-    game:GetService("ReplicatedStorage"):WaitForChild("@rbxts/wcs:source/networking@GlobalEvents"):WaitForChild("requestSkill"):FireServer(unpack(args))
+    ReplicatedStorage:WaitForChild("@rbxts/wcs:source/networking@GlobalEvents"):WaitForChild("requestSkill"):FireServer(unpack(args))
 end
 
 local function GetQuest(Buff)
@@ -209,6 +210,10 @@ while Configs.FarmMon do task.wait()
     end
         
     for _,MobInTable in pairs(Monster) do
+        local ChestBoss = Workspace.Effects:FindFirstChild("TestChest")
+        if ChestBoss then
+        RootPart.CFrame = ChestBoss:GetPivot()
+        end
         local MonRootPart = MobInTable:FindFirstChild("HumanoidRootPart")
         local MonHum = MobInTable:FindFirstChild("Humanoid")
         local MonModel = MobInTable:GetPivot()
@@ -230,16 +235,17 @@ while Configs.FarmMon do task.wait()
                 if not Character or not Humanoid or Humanoid.Health <= 0 then
                     break
                 end
-                if game:GetService("Players").LocalPlayer.PlayerGui.HUD.HUDContainer.Top.Top.Lower.Quest.Visible == false then
-                    TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
+                if Player.PlayerGui.HUD.HUDContainer.Top.Top.Lower.Quest.Visible == false then
+                     RootPart.CFrame = CFrame.new(QuestPro[SettingsFarm.Farm].Cf)-- TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
                     task.wait()
                     GetQuest(QuestPro[SettingsFarm.Farm].Quest)
+                    task.wait(3)
                 end
                         
                 local CharWork = Workspace.Characters:FindFirstChild(Player.Name)
                 if not CharWork then
                     break
-                elseif CharWork:GetAttribute("currentCombo") == 4 then
+                elseif CharWork:GetAttribute("currentCombo") == 5 then
                     RootPart.CFrame = MonModel * CFrame.new(0, 0, 18) * CFrame.Angles(math.rad(0),0,0)
                     AutoSkill(Enum.KeyCode.Z)
                 else
@@ -255,6 +261,10 @@ end
 
 
 while Configs.FarmBoss do task.wait()
+    local ChestBoss = Workspace.Effects:FindFirstChild("TestChest")
+    if ChestBoss then
+        RootPart.CFrame = ChestBoss:GetPivot()
+    end
     for _,Boss in pairs(Workspace.Enemies.Bosses:GetChildren()) do
         if table.find(WorldBoss, Boss:GetAttribute("EnemyName"):lower()) and Boss:FindFirstChild("Humanoid") then
             local CharWork = Workspace.Characters:FindFirstChild(Player.Name)
