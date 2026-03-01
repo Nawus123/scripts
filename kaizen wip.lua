@@ -16,6 +16,18 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualInput = game:GetService("VirtualInputManager")
 local VirtualUser = game:GetService("VirtualUser")
 
+local TeleportService = game:GetService("TeleportService")
+
+local HttpService = game:GetService("HttpService")
+
+local PlaceId = game.PlaceId
+
+
+
+local function Hop()
+    TeleportService:Teleport(PlaceId)
+end
+
 
 function UpdateCharacter()
     Character = Player.Character or Player.CharacterAdded:Wait()
@@ -28,12 +40,12 @@ Player.CharacterAdded:Connect(UpdateCharacter)
     local Env = getgenv()
 
     Env.Configs = {
-        ["FarmBoss"] = true,
+        ["FarmBoss"] = false,
         ["FarmMon"] = false
     }
 
     Env.SettingsFarm = {
-        ["Farm"] = "Level_185",
+        ["Farm"] = "Level_280",
         ["Weapon"] = "Blood Scythe"
     }
     
@@ -42,7 +54,8 @@ Player.CharacterAdded:Connect(UpdateCharacter)
         "gojo", 
         "sukuna", 
         "itadori",
-        "kashimo" 
+        "kashimo",
+        "uraume"
     }
 
     Env.QuestPro = {
@@ -131,13 +144,18 @@ Player.CharacterAdded:Connect(UpdateCharacter)
             ["Dis"] = 0
         },
         ["Level_265"] = {
-            ["Quest"] = buffer.fromstring("=\000\a\000Kamfuji\001\000"), -- Nanami
+            ["Quest"] = buffer.fromstring("=\000\a\000Kamfuji\001\000"), -- Kamfuji
             ["Mon"] = "golem_beach",
             ["Cf"] = Vector3.new(85, 181, 3036),
-            ["Dis"] = 0
+            ["Dis"] = 6
+        },
+        ["Level_280"] = {
+            ["Quest"] = buffer.fromstring("=\000\a\000Sutoshi\001\000"), -- Sutoshi
+            ["Mon"] = "senseiklops_beach",
+            ["Cf"] = Vector3.new(-78, 181, 3238),
+            ["Dis"] = 6
         }
     }
-
 
 
 local Tween = nil
@@ -190,74 +208,65 @@ end
 -- local DistFar = (Player.Character.HumanoidRootPart.Position - QuestPro[Input].Cf).Magnitude
 -- print(DistFar)
 -- TweenToPlace(QuestPro[Input].Cf, 150)
-
-while Configs.FarmMon do task.wait()
-    local Monster = {}
-    for _,Mon in pairs(Workspace.Enemies:GetDescendants()) do
-        local DistFar = (Player.Character.HumanoidRootPart.Position - QuestPro[SettingsFarm.Farm].Cf).Magnitude
-        if DistFar > 300 then
-            TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
-        end
-        if Mon:GetAttribute("EnemyName") == nil then
-            continue
-        end
-        if Mon:GetAttribute("EnemyName"):lower() ~= QuestPro[SettingsFarm.Farm].Mon then
-            continue
-        end
-        if (Mon:FindFirstChild("HumanoidRootPart") or Mon:FindFirstChild("Humanoid")) and Mon.Humanoid.Health > 0 then
-            table.insert(Monster, Mon)
-        end
-    end
-        
-    for _,MobInTable in pairs(Monster) do
-        local ChestBoss = Workspace.Effects:FindFirstChild("TestChest")
-        if ChestBoss then
-        RootPart.CFrame = ChestBoss:GetPivot()
-        end
-        local MonRootPart = MobInTable:FindFirstChild("HumanoidRootPart")
-        local MonHum = MobInTable:FindFirstChild("Humanoid")
-        local MonModel = MobInTable:GetPivot()
-        if not MonModel or not MonHum then
-            break
-        end
-        if (MonRootPart or MonHum) and MonModel then
-            repeat
-                task.wait()
-                local Backpack = Player.Backpack:GetChildren()
-                for i,v in pairs(Backpack) do
-                    if v:IsA("Tool") then
-                        if v.Name == SettingsFarm.Weapon then
-                            Humanoid:EquipTool(v)
+task.spawn(function()
+    while Configs.FarmMon do task.wait()
+        for _,Mon in pairs(Workspace.Enemies:GetDescendants()) do
+            local ChestBoss = Workspace.Effects:FindFirstChild("TestChest")
+            if ChestBoss then
+                RootPart.CFrame = ChestBoss:GetPivot()
+            end
+            local DistFar = (Player.Character.HumanoidRootPart.Position - QuestPro[SettingsFarm.Farm].Cf).Magnitude
+            if DistFar > 300 then
+                TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
+            end
+            if Mon:GetAttribute("EnemyName") == nil then
+                continue
+            end
+            if Mon:GetAttribute("EnemyName"):lower() ~= QuestPro[SettingsFarm.Farm].Mon then
+                continue
+            end
+            if Player.PlayerGui.HUD.HUDContainer.Top.Top.Lower.Quest.Visible == false then
+                task.wait(.6)
+                RootPart.CFrame = CFrame.new(QuestPro[SettingsFarm.Farm].Cf)
+                task.wait(.6)
+                GetQuest(QuestPro[SettingsFarm.Farm].Quest)
+            end
+            local MonRootPart = Mon:FindFirstChild("HumanoidRootPart")
+            local MonHum = Mon:FindFirstChild("Humanoid")
+            local MonModel = Mon:GetPivot()
+            if (MonRootPart or MonHum) and Mon.Humanoid.Health > 0 then
+                if not MonModel or not MonHum then
+                    break
+                end
+                if (MonRootPart or MonHum) and MonModel then
+                    repeat
+                        local Backpack = Player.Backpack:GetChildren()
+                        for i,v in pairs(Backpack) do
+                            if v:IsA("Tool") then
+                                if v.Name == SettingsFarm.Weapon then
+                                    Humanoid:EquipTool(v)
+                                end
+                            end
                         end
-                    end
+                        if not Character or not Humanoid or Humanoid.Health <= 0 then
+                            break
+                        end
+                        local CharWork = Workspace.Characters:FindFirstChild(Player.Name)
+                        if not CharWork then
+                            break
+                        elseif CharWork:GetAttribute("currentCombo") == 5 then
+                            RootPart.CFrame = (MonRootPart.CFrame or MonModel) * CFrame.new(0, 0, 18) * CFrame.Angles(math.rad(0),0,0)
+                            AutoSkill(Enum.KeyCode.Z)
+                        else
+                            RootPart.CFrame = (MonRootPart.CFrame or MonModel) * CFrame.new(0, 0, QuestPro[SettingsFarm.Farm].Dis) * CFrame.Angles(math.rad(0),0,0)
+                        end
+                        Attack()
+                    until not Configs.FarmMon or MonHum.Health <= 0
                 end
-                local OldAttackMon = MobInTable:GetAttribute("currentCombo")
-                if not Character or not Humanoid or Humanoid.Health <= 0 then
-                    break
-                end
-                if Player.PlayerGui.HUD.HUDContainer.Top.Top.Lower.Quest.Visible == false then
-                     RootPart.CFrame = CFrame.new(QuestPro[SettingsFarm.Farm].Cf)-- TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
-                    task.wait()
-                    GetQuest(QuestPro[SettingsFarm.Farm].Quest)
-                    task.wait(3)
-                end
-                        
-                local CharWork = Workspace.Characters:FindFirstChild(Player.Name)
-                if not CharWork then
-                    break
-                elseif CharWork:GetAttribute("currentCombo") == 5 then
-                    RootPart.CFrame = MonModel * CFrame.new(0, 0, 18) * CFrame.Angles(math.rad(0),0,0)
-                    AutoSkill(Enum.KeyCode.Z)
-                else
-                    RootPart.CFrame = MonModel * CFrame.new(0, 0, 6) * CFrame.Angles(math.rad(0),0,0)
-                end
-                Attack()
-            until not Configs.FarmMon or MonHum.Health <= 0
-        else
-            TweenToPlace(QuestPro[SettingsFarm.Farm].Cf, 150)
+            end
         end
     end
-end
+end)
 
 
 while Configs.FarmBoss do task.wait()
@@ -285,6 +294,8 @@ while Configs.FarmBoss do task.wait()
                 RootPart.CFrame = PoBoss * CFrame.new(0, 0, 6) * CFrame.Angles(math.rad(0),0,0)
             end
             Attack()
+        -- else
+        --     Hop()
         end
     end
 end
