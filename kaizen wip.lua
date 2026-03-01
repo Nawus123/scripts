@@ -40,7 +40,7 @@ Player.CharacterAdded:Connect(UpdateCharacter)
     local Env = getgenv()
 
     Env.Configs = {
-        ["FarmBoss"] = false,
+        ["FarmBoss"] = true,
         ["FarmMon"] = false
     }
 
