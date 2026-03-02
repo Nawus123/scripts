@@ -422,7 +422,7 @@ do
 			end)
 		end
     end)
-    if getgenv().Configs and getgenv().Farm_Mon then
+    if getgenv().Configs and getgenv().Configs.Farm_Mon then
         Options.MonsterToggle:SetValue(Configs.Farm_Mon)
     end
 
@@ -479,7 +479,7 @@ do
 			end)
 		end
     end)
-    if getgenv().Configs and getgenv().Farm_Boss then
+    if getgenv().Configs and getgenv().Configs.Farm_Boss then
         Options.WorldBossToggle:SetValue(Configs.Farm_Boss)
     end
 
@@ -568,7 +568,7 @@ do
             end)
 		end
     end)
-    if getgenv().Configs and getgenv().Fard_Raid then
+    if getgenv().Configs and getgenv().Configs.Farm_Raid then
         Options.RaidToggle:SetValue(Configs.Farm_Raid)
     end
 
