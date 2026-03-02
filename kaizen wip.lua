@@ -421,7 +421,6 @@ do
 								task.wait()
 								local CharWork = Workspace.Characters:FindFirstChild(Player.Name)
 								local PoBoss = Boss:GetPivot()
-                                local BossHealth = Boss.Humanoid.Health
 								local Backpack = Player.Backpack:GetChildren()
 								for i,v in pairs(Backpack) do
 									if v:IsA("Tool") then
@@ -438,7 +437,7 @@ do
 									RootPart.CFrame = PoBoss * CFrame.new(0, 0, 6) * CFrame.Angles(math.rad(0),0,0)
 								end
 								-- Attack()
-							until BossHealth <= 0 or not Options.WorldBossToggle.Value or not Boss.Parent
+							until not Boss or not Options.WorldBossToggle.Value or not Boss.Parent
 						end
 					end
 					task.wait(2)
