@@ -27,6 +27,151 @@ local PlaceId = game.PlaceId
 local Enemies = Workspace:WaitForChild("Enemies")
 local Effects = Workspace:WaitForChild("Effects")
 
+local Env = getgenv()
+
+-- Env.Configs = {
+--     ["Farm_Boss"] = true,
+--     ["Farm_Mon"] = false,
+--     ["Farm_Raid"] = false,
+--     ["Settings"] = {
+--         ["AutoWeapon"] = true,
+--         ["Hop_Server_Boss"] = true
+--     }
+-- }
+    
+Env.SettingsFarm = {
+    ["Farm"] = "Level_280",
+    ["Weapon"] = "Blood Scythe",
+    ["Hop_Server_Boss"] = false
+}
+
+Env.WorldBoss = { 
+    "eso", 
+    "gojo", 
+    "sukuna", 
+    "itadori",
+    "kashimo",
+    "uraume"
+}
+    
+Env.__Quest = {
+    ["Level_30 Cursed Frog"] = {
+        ["Quest"] = buffer.fromstring(":\000\003\000Rin\001\000"),
+        ["Mon"] = "cursedfrog",
+        ["Cf"] = Vector3.new(1117, 63, -920),
+        ["Dis"] = 6
+    },
+    ["Level_33 Grasshopper Boss"] = {
+        ["Quest"] = buffer.fromstring(":\000\a\000Hisashi\001\000"),
+        ["Mon"] = "grasshoppercurse",
+        ["Cf"] = Vector3.new(923, 131, -491),
+        ["Dis"] = 6
+    },
+    ["Level_34 Mushroom Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\005\000Akira\001\000"),
+        ["Mon"] = "mushroomcurse",
+        ["Cf"] = Vector3.new(733, 149, -1469),
+        ["Dis"] = 6
+    },
+    ["Level_40 Mushroom Head Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\005\000Akira\002\000"),
+        ["Mon"] = "mushroomheadcurse",
+        ["Cf"] = Vector3.new(680, 124, -1256),
+        ["Dis"] = 6
+    },
+    ["Level_45 Beetle Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\005\000Osamu\001\000"), -- Osamu
+        ["Mon"] = "beetlecurse",
+        ["Cf"] = Vector3.new(1245, 173, -2092),
+        ["Dis"] = 6
+    },
+    ["Level_55 Demon Head"] = {
+        ["Quest"] = buffer.fromstring(":\000\004\000Taro\001\000"), -- Taro
+        ["Mon"] = "demonhead",
+        ["Cf"] = Vector3.new(501, 136, -2549),
+        ["Dis"] = 6
+    },
+    ["Level_70 Frozen Corpse"] = {
+        ["Quest"] = buffer.fromstring(":\000\003\000Rei\001\000"), -- Sorcerer
+        ["Mon"] = "frozencorpse",
+        ["Cf"] = Vector3.new(-133, 334, -1755),
+        ["Dis"] = 6
+    },
+    ["Level_78 Death Howl Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\005\000Kaori\001\000"), -- kaori
+        ["Mon"] = "deathhowlcurse",
+        ["Cf"] = Vector3.new(-763, 323, -1725),
+        ["Dis"] = 6
+    },
+    ["Level_85 Frost Bound Titan"] = {
+        ["Quest"] = buffer.fromstring(":\000\006\000Itsuki\001\000"), -- itsuki
+        ["Mon"] = "frostboundtitan",
+        ["Cf"] = Vector3.new(-247, 448, -1486),
+        ["Dis"] = 6
+    },
+    ["Level_91 Slime"] = {
+        ["Quest"] = buffer.fromstring(":\000\a\000Tetsuya\001\000"), -- tetsuya
+        ["Mon"] = "slime",
+        ["Cf"] = Vector3.new(3822, -13, -1509),
+        ["Dis"] = 6
+    },
+    ["Level_125 Thornmaw Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\025\000Scared Civilian - Shibuya\001\000"), -- Scared Civilian
+        ["Mon"] = "thornmawcurse",
+        ["Cf"] = Vector3.new(1370, 167, 963),
+        ["Dis"] = 6
+    },
+    ["Level_140 Twistedmaw Curse"] = {
+        ["Quest"] = buffer.fromstring(":\000\014\000Yuta - Shibuya\001\000"), -- Yuta
+        ["Mon"] = "twistedmawcurse",
+        ["Cf"] = Vector3.new(688, 180, 2094),
+        ["Dis"] = 6
+    },
+    ["Level_170 Wailing Titan"] = {
+        ["Quest"] = buffer.fromstring(":\000\016\000Nanami - Shibuya\001\000"), -- Nanami
+        ["Mon"] = "wailingtitan",
+        ["Cf"] = Vector3.new(960, 181, 3014),
+        ["Dis"] = 6
+    },
+    ["Level_185 Ironclad Gnasher Boss"] = {
+        ["Quest"] = buffer.fromstring("=\000\016\000Nanami - Shibuya\002\000"), -- Nanami
+        ["Mon"] = "ironcladgnasher",
+        ["Cf"] = Vector3.new(957, 181, 3007),
+        ["Dis"] = 0
+    },
+    ["Level_265 Golem Beach"] = {
+        ["Quest"] = buffer.fromstring("=\000\a\000Kamfuji\001\000"), -- Kamfuji
+        ["Mon"] = "golem_beach",
+        ["Cf"] = Vector3.new(85, 181, 3036),
+        ["Dis"] = 6
+    },
+    ["Level_280 Senseiklops Bleach Boss"] = {
+        ["Quest"] = buffer.fromstring("=\000\a\000Sutoshi\001\000"), -- Sutoshi
+        ["Mon"] = "senseiklops_beach",
+        ["Cf"] = Vector3.new(-78, 181, 3238),
+        ["Dis"] = 6
+    },
+    ["Level_325 Lanternfish Beach Boss"] = {
+        ["Quest"] = buffer.fromstring("=\000\006\000Minato\001\000"), -- Minato
+        ["Mon"] = "lanternfish_beach",
+        ["Cf"] = Vector3.new(-1749, 113, 4227),
+        ["Dis"] = 6
+	}
+}
+
+Env.__Raid = {
+    ["Zenin_Raid"] = {
+        ["Mon"] = {
+            "zeninsorcerer",
+            "fallenzeninsorcerer",
+            "maki"
+        }
+    }
+}
+
+
+-- // function
+
 local function Hop()
     TeleportService:Teleport(PlaceId)
 end
@@ -67,147 +212,26 @@ local function GetQuest(Buff)
     game:GetService("ReplicatedStorage").Source.Shared.Packages.Nodeware.Utilities["RE//Nodeware/PacketsSync"]:FireServer(Buff)
 end
 
-    local Env = getgenv()
 
-    Env.Configs = {
-        ["FarmBoss"] = false,
-        ["FarmMon"] = false,
-        ["FarmRaid"] = false
-    }
-
-    Env.SettingsFarm = {
-        ["Farm"] = "Level_280",
-        ["Weapon"] = "Blood Scythe",
-        ["Hop_Server_Boss"] = false
-    }
-    
-    Env.WorldBoss = { 
-        "eso", 
-        "gojo", 
-        "sukuna", 
-        "itadori",
-        "kashimo",
-        "uraume"
-    }
-    
-    Env.__Quest = {
-        ["Level_30 Cursed Frog"] = {
-            ["Quest"] = buffer.fromstring(":\000\003\000Rin\001\000"),
-            ["Mon"] = "cursedfrog",
-            ["Cf"] = Vector3.new(1117, 63, -920),
-            ["Dis"] = 6
-        },
-        ["Level_33 Grasshopper Boss"] = {
-            ["Quest"] = buffer.fromstring(":\000\a\000Hisashi\001\000"),
-            ["Mon"] = "grasshoppercurse",
-            ["Cf"] = Vector3.new(923, 131, -491),
-            ["Dis"] = 6
-        },
-        ["Level_34 Mushroom Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\005\000Akira\001\000"),
-            ["Mon"] = "mushroomcurse",
-            ["Cf"] = Vector3.new(733, 149, -1469),
-            ["Dis"] = 6
-        },
-        ["Level_40 Mushroom Head Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\005\000Akira\002\000"),
-            ["Mon"] = "mushroomheadcurse",
-            ["Cf"] = Vector3.new(680, 124, -1256),
-            ["Dis"] = 6
-        },
-        ["Level_45 Beetle Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\005\000Osamu\001\000"), -- Osamu
-            ["Mon"] = "beetlecurse",
-            ["Cf"] = Vector3.new(1245, 173, -2092),
-            ["Dis"] = 6
-        },
-        ["Level_55 Demon Head"] = {
-            ["Quest"] = buffer.fromstring(":\000\004\000Taro\001\000"), -- Taro
-            ["Mon"] = "demonhead",
-            ["Cf"] = Vector3.new(501, 136, -2549),
-            ["Dis"] = 6
-        },
-        ["Level_70 Frozen Corpse"] = {
-            ["Quest"] = buffer.fromstring(":\000\003\000Rei\001\000"), -- Sorcerer
-            ["Mon"] = "frozencorpse",
-            ["Cf"] = Vector3.new(-133, 334, -1755),
-            ["Dis"] = 6
-        },
-        ["Level_78 Death Howl Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\005\000Kaori\001\000"), -- kaori
-            ["Mon"] = "deathhowlcurse",
-            ["Cf"] = Vector3.new(-763, 323, -1725),
-            ["Dis"] = 6
-        },
-        ["Level_85 Frost Bound Titan"] = {
-            ["Quest"] = buffer.fromstring(":\000\006\000Itsuki\001\000"), -- itsuki
-            ["Mon"] = "frostboundtitan",
-            ["Cf"] = Vector3.new(-247, 448, -1486),
-            ["Dis"] = 6
-        },
-        ["Level_91 Slime"] = {
-            ["Quest"] = buffer.fromstring(":\000\a\000Tetsuya\001\000"), -- tetsuya
-            ["Mon"] = "slime",
-            ["Cf"] = Vector3.new(3822, -13, -1509),
-            ["Dis"] = 6
-        },
-        ["Level_125 Thornmaw Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\025\000Scared Civilian - Shibuya\001\000"), -- Scared Civilian
-            ["Mon"] = "thornmawcurse",
-            ["Cf"] = Vector3.new(1370, 167, 963),
-            ["Dis"] = 6
-        },
-        ["Level_140 Twistedmaw Curse"] = {
-            ["Quest"] = buffer.fromstring(":\000\014\000Yuta - Shibuya\001\000"), -- Yuta
-            ["Mon"] = "twistedmawcurse",
-            ["Cf"] = Vector3.new(688, 180, 2094),
-            ["Dis"] = 6
-        },
-        ["Level_170 Wailing Titan"] = {
-            ["Quest"] = buffer.fromstring(":\000\016\000Nanami - Shibuya\001\000"), -- Nanami
-            ["Mon"] = "wailingtitan",
-            ["Cf"] = Vector3.new(960, 181, 3014),
-            ["Dis"] = 6
-        },
-        ["Level_185 Ironclad Gnasher Boss"] = {
-            ["Quest"] = buffer.fromstring("=\000\016\000Nanami - Shibuya\002\000"), -- Nanami
-            ["Mon"] = "ironcladgnasher",
-            ["Cf"] = Vector3.new(957, 181, 3007),
-            ["Dis"] = 0
-        },
-        ["Level_265 Golem Beach"] = {
-            ["Quest"] = buffer.fromstring("=\000\a\000Kamfuji\001\000"), -- Kamfuji
-            ["Mon"] = "golem_beach",
-            ["Cf"] = Vector3.new(85, 181, 3036),
-            ["Dis"] = 6
-        },
-        ["Level_280 Senseiklops Bleach Boss"] = {
-            ["Quest"] = buffer.fromstring("=\000\a\000Sutoshi\001\000"), -- Sutoshi
-            ["Mon"] = "senseiklops_beach",
-            ["Cf"] = Vector3.new(-78, 181, 3238),
-            ["Dis"] = 6
-        },
-        ["Level_325 Lanternfish Beach Boss"] = {
-            ["Quest"] = buffer.fromstring("=\000\006\000Minato\001\000"), -- Minato
-            ["Mon"] = "lanternfish_beach",
-            ["Cf"] = Vector3.new(-1749, 113, 4227),
-            ["Dis"] = 6
-		}
-    }
+local function SelectSword()
+    if getgenv().Configs and getgenv().Configs.Settings.AutoWeapon then
+        local SwordTable = {}
+        for _,Sword in ipairs(ReplicatedStorage.Source.Client.Combat.Skills.Movesets.Weapons:GetChildren()) do
+            table.insert(SwordTable, Sword.Name)
+        end
+        for _,tool in ipairs(Backpack:GetChildren()) do
+            if tool:IsA("Tool") then
+                if table.find(SwordTable, tool.Name) then
+                    return tool.Name
+                end
+            end
+        end
+    end
+end
+print(SelectSword())
 
 
-    Env.__Raid = {
-        ["Zenin_Raid"] = {
-            ["Mon"] = {
-                "zeninsorcerer",
-                "fallenzeninsorcerer",
-                "maki"
-            }
-        }
-    }
 
-
--- // 
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -276,7 +300,7 @@ do
 
 	Humanoid:UnequipTools()
 	local Tools = {}
-	for _,tool in pairs(Backpack:GetChildren()) do
+	for _,tool in ipairs(Backpack:GetChildren()) do
 		if tool:IsA("Tool") then
 			table.insert(Tools, tool.Name)
 		end
@@ -288,8 +312,9 @@ do
         Multi = false,
         Default = Tools[1],
     })
-
-    -- Dropdown:SetValue("four")
+    if getgenv().Configs and getgenv().Configs.Settings.AutoWeapon then
+        Dropdown:SetValue(SelectSword())
+    end
 
     Dropdown:OnChanged(function(Value)
         SettingsFarm.Weapon =  Value
@@ -397,8 +422,9 @@ do
 			end)
 		end
     end)
-
-    Options.MonsterToggle:SetValue(Configs.FarmMon)
+    if getgenv().Configs and getgenv().Farm_Mon then
+        Options.MonsterToggle:SetValue(Configs.Farm_Mon)
+    end
 
 	local Toggle1 = Tabs.Main:AddToggle("WorldBossToggle", {Title = "Auto WorldBoss", Default = false })
 
@@ -445,7 +471,7 @@ do
 					if ChestBoss then
 						RootPart.CFrame = ChestBoss:GetPivot()
 					end
-					if SettingsFarm.Hop_Server_Boss then
+					if Configs.Settings.Hop_Server_Boss then
 						task.wait(3)
 						Hop()
 					end
@@ -453,8 +479,9 @@ do
 			end)
 		end
     end)
-
-    Options.WorldBossToggle:SetValue(Configs.FarmBoss)
+    if getgenv().Configs and getgenv().Farm_Boss then
+        Options.WorldBossToggle:SetValue(Configs.Farm_Boss)
+    end
 
     local Toggle2 = Tabs.Raid:AddToggle("RaidToggle", {Title = "Auto Raid", Default = false })
 
@@ -541,8 +568,9 @@ do
             end)
 		end
     end)
-
-    Options.RaidToggle:SetValue(Configs.FarmRaid)
+    if getgenv().Configs and getgenv().Fard_Raid then
+        Options.RaidToggle:SetValue(Configs.Farm_Raid)
+    end
 
     local MultiDropdown = Tabs.Main:AddDropdown("MultiDropdown", {
         Title = "Dropdown",
