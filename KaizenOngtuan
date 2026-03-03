@@ -44,7 +44,7 @@ Env.SettingsFarm = {
     ["Weapon"] = "Blood Scythe",
     ["Hop_Server_Boss"] = false
 }
-
+SettingsFarm
 Env.WorldBoss = { 
     "eso", 
     "gojo", 
@@ -560,7 +560,7 @@ do
                                         RootPart.CFrame = (MonRootPart.CFrame or MonModel) * CFrame.new(0, 0, 6) * CFrame.Angles(math.rad(0),0,0)
                                     end
                                     -- Attack()
-                                until not Options.RaidToggle.Value or HealthMon <= 0 or MonRaid.Parent == nil
+                                until not Options.RaidToggle.Value or not MonRaid or MonRaid.Parent == nil
                             end
                         end
                     end
