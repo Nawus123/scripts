@@ -27,6 +27,8 @@ local PlaceId = game.PlaceId
 local Enemies = Workspace:WaitForChild("Enemies")
 local Effects = Workspace:WaitForChild("Effects")
 
+local PlayerGui = Player:WaitForChild("PlayerGui")
+local MainMenu = PlayerGui:WaitForChild("MainMenu")
 local Env = getgenv()
 
 -- Env.Configs = {
@@ -173,9 +175,9 @@ Env.__Raid = {
 
 
 -- // function
-    
-if Player.PlayerGui.MainMenu.Frame.Visible == true then
-    firesignal(Player.PlayerGui.MainMenu.Frame.Menu.Options.Play.Container.Button.MouseButton1Click)
+
+if MainMenu.Frame.Visible == true then
+    firesignal(MainMenu:FindFirstChild("Frame").Menu.Options.Play.Container.Button.MouseButton1Click)
 end
 
 local function Hop()
