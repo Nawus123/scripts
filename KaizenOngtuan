@@ -176,9 +176,7 @@ Env.__Raid = {
 
 -- // function
 
-if MainMenu.Frame.Visible == true then
-    firesignal(MainMenu:FindFirstChild("Frame").Menu.Options.Play.Container.Button.MouseButton1Click)
-end
+firesignal(MainMenu:WaitForChild("Frame"):WaitForChild("Menu"):WaitForChild("Options"):WaitForChild("Play"):WaitForChild("Container"):WaitForChild("Button").MouseButton1Click)
 
 local function Hop()
     TeleportService:Teleport(PlaceId)
