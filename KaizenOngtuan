@@ -30,12 +30,14 @@ local Effects = Workspace:WaitForChild("Effects")
 local Env = getgenv()
 
 -- Env.Configs = {
---     ["Farm_Boss"] = true,
+--     ["Farm_Boss"] = false,
 --     ["Farm_Mon"] = false,
 --     ["Farm_Raid"] = false,
+--     ["Farm_Chest"] = false,
 --     ["Settings"] = {
 --         ["AutoWeapon"] = true,
---         ["Hop_Server_Boss"] = true
+--         ["Hop_Server_Boss"] = false,
+--         ["Hop_Server_Chest"] = false
 --     }
 -- }
     
@@ -44,7 +46,7 @@ Env.SettingsFarm = {
     ["Weapon"] = "Blood Scythe",
     ["Hop_Server_Boss"] = false
 }
-SettingsFarm
+
 Env.WorldBoss = { 
     "eso", 
     "gojo", 
@@ -481,6 +483,31 @@ do
     end)
     if getgenv().Configs and getgenv().Configs.Farm_Boss then
         Options.WorldBossToggle:SetValue(Configs.Farm_Boss)
+    end
+
+    local Toggle3 = Tabs.Main:AddToggle("FarmChestToggle", {Title = "Auto Chest", Default = false })
+
+    Toggle3:OnChanged(function()
+		if Options.FarmChestToggle.Value and PlaceId == 17662297954 then
+			task.spawn(function()
+				while Options.FarmChestToggle.Value do task.wait()
+                    for _,Chest in pairs(Workspace.Effects:GetChildren()) do
+                        if string.match(Chest.Name, "Chest") and Chest:IsA("Model") then
+                            local Position = Chest:GetPivot()
+                            RootPart.CFrame = Position
+                            task.wait(2)
+                        end
+                    end
+					if Configs.Settings.Hop_Server_Chest then
+						task.wait(3)
+						Hop()
+					end
+				end
+			end)
+		end
+    end)
+    if getgenv().Configs and getgenv().Configs.Farm_Chest then
+        Options.FarmChestToggle:SetValue(Configs.Farm_Chest)
     end
 
     local Toggle2 = Tabs.Raid:AddToggle("RaidToggle", {Title = "Auto Raid", Default = false })
