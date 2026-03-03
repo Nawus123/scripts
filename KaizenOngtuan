@@ -173,6 +173,10 @@ Env.__Raid = {
 
 
 -- // function
+    
+if Player.PlayerGui.MainMenu.Frame.Visible == true then
+    firesignal(Player.PlayerGui.MainMenu.Frame.Menu.Options.Play.Container.Button.MouseButton1Click)
+end
 
 local function Hop()
     TeleportService:Teleport(PlaceId)
