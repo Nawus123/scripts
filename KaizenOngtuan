@@ -42,18 +42,6 @@ local Env = getgenv()
 --         ["Hop_Server_Chest"] = false
 --     }
 -- }
-
-getgenv().Configs = {
-    ["Farm_Boss"] = true,
-    ["Farm_Mon"] = false,
-    ["Farm_Raid"] = false,
-    ["Farm_Chest"] = false,
-    ["Settings"] = {
-        ["AutoWeapon"] = true,
-        ["Hop_Server_Boss"] = true,
-        ["Hop_Server_Chest"] = false
-    }
-}
     
 Env.SettingsFarm = {
     ["Farm"] = "Level_280",
@@ -482,18 +470,16 @@ do
 								end
 								-- Attack()
 							until not Boss or not Options.WorldBossToggle.Value or not Boss.Parent
-                            if not Character or not Humanoid or Humanoid.Health <= 0 then
-                                break
-                            end
-                        elseif Configs.Settings.Hop_Server_Boss then
-                            task.wait(3)
-                            Hop()
 						end
 					end
 					task.wait(2)
 					local ChestBoss = Effects:FindFirstChild("TestChest")
 					if ChestBoss then
 						RootPart.CFrame = ChestBoss:GetPivot()
+					end
+					if Configs.Settings.Hop_Server_Boss then
+						task.wait(3)
+						Hop()
 					end
 				end
 			end)
